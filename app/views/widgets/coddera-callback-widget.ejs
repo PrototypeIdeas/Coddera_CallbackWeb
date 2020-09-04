@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>   
+	<!--Bootsrap 4 CDN-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+<body bgproperties="fixed">
+	<div class="d-flex">
+		<div class="card" id="callback-card">
+			<div class="card-header">
+				<!-- <aside class ="card_callback_logo"> -->
+					<img class="card_callback_logo_img" id="card_callback_logo_img" alt="logo"/>
+				<!-- </aside> -->
+			</div>
+			<div class="card-body">
+				<p id="phrase">Legal :) </br> </br> Informe agora seu nome e telefone.</p>
+				<p id="phrase-ok" class="phrase-ok-nok" style="display: none;">Tudo certo, em breve você receberá uma ligação do Gympass.</p>
+				<p id="phrase-nok" class="phrase-ok-nok"  style="display: none;">Ops, alguma coisa deu errado, vamos tentar novamente</p>
+				<div class="form-card" id="form-callback">
+					<form>
+						<div class="input-group form-group"></div>
+						<div class="input-group form-group">
+							<input type="text" class="form-control" placeholder="Nome:" id="first-name" required >
+						</div>
+						<div class="input-group form-group">
+							<input type="text" class="form-control" placeholder="Telefone:" id="phone-number" data-mask="00 00000 0009" required >
+						</div>
+						<div class="form-group">
+							<input type="button" value="Continuar" class="btn submit-callback" id="submit-callback" disabled>
+						</div>
+						<div class="input-group form-group"></div>
+					</form>
+				</div>
+				<div class="callback_loader" style="display: none;"></div>
+				<div id="description-ok" style="display: none;">
+					<p><strong>OBRIGADO!</strong></p>
+				</div>
+				<div id="description-nok" style="display: none;">
+					<input type="button" value="Tentar Novamente" class="btn try-again-callback" id="try-again-callback">
+				</div>
+			</div>
+			<!-- <div class="custtom-card-footer">
+				<input type="button" class="btn remove-callback-card-btn" id="remove-callback-card-btn">
+			</div> -->
+		</div>
+	</div>
+	<!-- <div id="open-form-callback">
+		<input type="button" value="QUERO RECEBER UMA LIGAÇÃO" class="btn" id="open-form-callback-button"/>
+	</div> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+	
+	<style>
+		@import url('https://fonts.googleapis.com/css?family=Numans');
+
+		#callback-card{
+			height: 500px;
+			width: auto;
+			border-top-left-radius: 20px;
+			border-top-right-radius: 20px;
+			border-bottom-left-radius: 20px;
+			border: none;
+			box-shadow: 0px 2px 3px rgba(50, 50, 50, 0.77);
+			font-family: "Open Sans", sans-serif;
+			background-color: rgba(235, 98, 82);
+		}
+
+		#callback-card .card-header {
+			margin-top: 20px;
+			background-color: transparent;
+			height: 20%;
+			border: none;
+			text-align: center;	
+		}
+
+		.card_callback_logo_img {
+			max-width:250px;
+			max-height:100px;
+			width: auto;
+			height: auto;
+		}
+
+		aside.card_callback_logo img{
+			padding: 0px 15px;
+			width: 160px;
+		}
+
+		#callback-card .card-body{
+			height: 350px;
+			width: 292px;
+		}
+
+		#phrase {
+			color: white; 
+			margin-bottom: 20px;
+			text-align: left;
+			font-size: large;
+		}
+
+		.phrase-ok-nok {
+			color: white; 
+			margin-bottom: 20px;
+			margin-top: 20px;
+			text-align: left;
+			font-size: large;
+		}
+
+		#callback-card .card-body .form-card {
+			height: auto;
+			width: 250px;
+			background-color:rgba(235, 98, 82);
+		}
+
+		#description-ok {
+			height: auto;
+			min-height: 50px;
+			width: 100%;
+			background-color: rgba(235, 98, 82);;
+			color:  white;
+			border: 2px solid white;
+			border-radius: 25px;
+			text-align: center;	
+			position: relative;
+			margin-top: 100px;
+		}
+
+		#description-ok p{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%)
+		}
+
+		.try-again-callback{
+			min-height: 50px;
+			width: 100%;
+			background-color: white;
+			color:  rgba(235, 98, 82);
+			border-radius: 25px;
+			text-align: center;	
+			margin-top: 100px;
+			font-weight: 700;
+		}
+
+		.callback_loader {
+			margin-top: 50%;
+		}
+
+		.callback_loader {
+			position: absolute;
+			top: 15%;
+			left: 40%;
+			margin-right: -30%;
+			transform: translate(-50%, -50%);
+			border: 10px solid #f3f3f3;
+			border-top: 10px solid  rgba(235, 98, 82); 
+			border-radius: 50%;
+			width: 50px;
+			height: 50px;
+			animation: spin 2s linear infinite;
+		}
+
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		#form-callback .form-group{
+			width: 100%;
+			margin: 20px auto;
+			border-radius: 20px;
+		}
+
+		#form-callback .form-group .form-control{
+			border-radius: 20px;
+			color: rgba(235, 98, 82);
+			font-weight: 700;
+		}  
+
+		#form-callback .form-group .form-control::-webkit-input-placeholder {
+			color: rgba(235, 98, 82);;
+			font-weight: 700;
+		}
+
+		#form-callback .form-group .form-control:-moz-placeholder { /* Firefox 18- */
+			color: rgba(235, 98, 82);;  
+			font-weight: 700;
+		}
+
+		#form-callback .form-group .form-control::-moz-placeholder {  /* Firefox 19+ */
+			color: rgba(235, 98, 82);;  
+			font-weight: 700;
+		}
+
+		#form-callback .form-group .form-control:-ms-input-placeholder {  
+			color: rgba(235, 98, 82);;  
+			font-weight: 700;
+		}
+
+		#form-callback .form-group input:focus{
+			outline: 0 0 0 0  !important;
+			box-shadow: 0 0 0 0 !important;
+		}
+
+		.remember{
+			color: white;
+		}
+
+		#submit-callback{
+			color: rgba(235, 98, 82);
+			width: 100%;
+			background-color: white;
+			border-radius: 20px;
+			font-weight: 700;
+		}
+
+		#submit-callback:disabled {
+			color: white;
+			border: 2px solid;
+			border-color: white;
+			background-color: rgba(235, 98, 82);
+			opacity: unset;
+		}
+
+		#callback-card .custtom-card-footer {
+			background-color: transparent;
+			border: none;
+			float: right;
+			width: 100%;
+		}
+
+		#remove-callback-card-btn {
+			float: right;
+			border-top-left-radius: 20px;
+			width: 45px;
+			height: 45px;
+			font-size: x-large;
+			background-color: white;
+			background-repeat: no-repeat;
+			background-position: center;
+		}
+
+		#open-form-callback-button {
+			color: white;
+			background-color: rgba(235, 98, 82);
+			border-radius: 25px;
+			width: 270px;
+			height: 50px;
+			font-size: 14px;
+			font-weight: 500;
+			box-shadow: 0px 8px 12px rgba(50, 50, 50, 0.50);
+		}
+	</style>
+</body>
+</html>

@@ -10,7 +10,6 @@ var corsOptions = {
     "preflightContinue": false,
     "optionsSuccessStatus": 204
   }
-  
 var app = express();
 
 app.use(express.static('./app/public'));

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Coddera Chat Page</title>
+   <!--Made with love by Mutiullah Samim -->
+   
+	<!--Bootsrap 4 CDN-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+	<!--Custom styles-->
+	<link rel="stylesheet" type="text/css" href="styles.css">
+
+	<link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon" />
+</head>
+<body bgproperties="fixed">
+
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				    <aside class ="logo">
+						<img src='./img/Coddera-Branco.png' alt="logo"/>
+					</aside>
+			</div>
+			<div class="card-body">
+				<form id="chatForm">
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user"></i></span>
+						</div>
+						<input type="text" class="form-control" placeholder="Nome" id="first-name" required >
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user"></i></span>
+						</div>
+						<input type="text" class="form-control" placeholder="Sobrenome" id="last-name" required >
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+						</div>
+						<input type="text" class="form-control" placeholder="Email" id="agent-email" required>
+					</div>
+					<div class="row align-items-center remember">
+						<input type="radio" name="queue" id="queue" value="Atendimento" checked> Atendimento<br>
+						<input type="radio" name="queue" id="queue" value="Vendas"> Vendas<br>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Entrar" class="btn float-right login_btn" id="chat-button">
+					</div>
+				</form>
+			</div>
+			<div class="card-footer">
+
+			</div>
+		</div>
+	</div>
+</div>
+<div id="chat-container" style="height:600px"></div>
+ <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script
+        id = purecloud-webchat-js, 
+        type="text/javascript"
+        src="https://apps.mypurecloud.com/webchat/jsapi-v1.js"
+        region="YOUR_REGION"
+        org-guid="YOUR_ORG_GUID"
+        deployment-key="YOUR_DEPLOYMENT_KEY"
+	></script>
+	
+	<script src="./config/config.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function initializeChat () {
+			
+			var chatConfig = {
+						webchatAppUrl: WEB_CHAT_APP_URL,
+						webchatServiceUrl: WEB_CHAT_SERVICE_URL,
+						orgGuid: ORG_GUID,
+						orgId: ORG_ID,
+						orgName: ORG_NAME,
+						language: LANGUAGE,
+						skills: SKILLS,
+						priority: PRIORITY,
+						queueName : '',
+						agentEmail: AGENT_EMAIL,
+						showSubmitButton: SHOW_SUBMIT_BUTTON,
+						logLevel: LOG_LEVEL,
+						locale: LOCALE,
+						reconnectEnabled: RECONNECT_ENABLE,
+						reconnectOrigins: RECONNECT_ORIGINS,
+						companyLogoSmall: COMPANY_LOGO_SMALL,
+						agentAvatar: AGENT_AVATAR,
+						welcomeMessage: WELCOME_MESSAGE,
+						cssClass: CSS_CLASS,
+						css: CSS
+				};
+			
+			var chatButton = document.getElementById('chat-button');
+		
+            // Required if reconnects are enabled
+            window.PURECLOUD_WEBCHAT_FRAME_CONFIG = {
+                containerEl: 'chat-container'
+            };
+								
+				ININ.webchat.create(chatConfig)
+					.then(function (webchat) {
+						// Optionally use isAutoJoined if reconnects are enabled
+						if (webchat.isAutoJoined()) {
+							// Do something to disable chat button
+						} else {
+							chatButton.onclick = function () {
+								var firstName = document.getElementById('first-name').value;
+								var lastName = document.getElementById('last-name').value;
+								var agentEmail = document.getElementById('agent-email').value;
+								var queue = document.getElementById('queue').value;	
+								
+								console.log(queue)
+								// Use getConfig.setConfigProperty() for any web chat configuration property to dynamically set config values.
+								webchat.getConfig().setData({
+									firstName: firstName,
+									lastName: lastName,
+									email: agentEmail,
+									phoneType: 'Cell',
+									customerId: 59606
+								});
+
+								//Use the updateConfig function to update batches of properties by passing in a partially filled chatConfig object
+								webchat.updateConfig({
+									//agentEmail: 'debrah.agent@example.com',
+									//locale: 'es',
+									//welcomeMessage: 'Welcome to Example support',
+									queueName : queue
+								});
+
+								// Alternatively, call webchat.renderPopup here. Note that reconnects do not apply to popup chat.
+								return webchat.renderFrame({
+									containerEl: 'chat-container'
+								});
+							}
+						}
+					})				
+					.catch(function (err){
+						console.log(err);
+					});
+        });
+
+	</script>
+	<style>
+		/* Made with love by Mutiullah Samim*/
+
+		@import url('https://fonts.googleapis.com/css?family=Numans');
+
+		html,body{
+			background-image: url('./img/hi-tech-tehnologii-network.jpg');
+			background-position: center top;
+			background-size: cover;
+			background-clip: border-box;
+			background-repeat: no-repeat;
+			height: auto;
+			font-family: 'Numans', sans-serif;
+		}
+
+		.container{
+		/*height: 100%;*/
+		align-content: center;
+		}
+
+		.card{
+		height: 400px;
+		margin-top: 250px;
+		margin-bottom: auto;
+		width: 400px;
+		background-color: rgba(0,0,0,0.5) !important;
+		}
+
+		.social_icon span{
+		font-size: 60px;
+		margin-left: 10px;
+		color: #FFC312;
+		}
+
+		.social_icon span:hover{
+		color: white;
+		cursor: pointer;
+		}
+
+		.card-header h3{
+		color: white;
+		}
+
+		.social_icon{
+		position: absolute;
+		right: 20px;
+		top: -45px;
+		}
+
+		.input-group-prepend span{
+		width: 50px;
+		background-color: #FFC312;
+		color: black;
+		border:0 !important;
+		}
+
+		input:focus{
+		outline: 0 0 0 0  !important;
+		box-shadow: 0 0 0 0 !important;
+
+		}
+
+		.remember{
+		color: white;
+		}
+
+		.remember input
+		{
+		width: 20px;
+		height: 20px;
+		margin-left: 15px;
+		margin-right: 5px;
+		}
+
+		.login_btn{
+		margin-top: 15px;
+		color: black;
+		background-color: #FFC312;
+		width: 100px;
+		}
+
+		.login_btn:hover{
+		color: black;
+		background-color: white;
+		}
+
+		.links{
+		color: white;
+		}
+
+		.links a{
+		margin-left: 4px;
+		}
+
+		aside.logo{
+			background-color: var(--bg--dark);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		aside.logo img{
+			padding: 0px 15px;
+			width: 160px;
+		}
+
+		@media(max-width: 576px) {
+			aside.logo img{
+				width: 100px;
+			}
+
+			.card{
+				height: 370px;
+				margin-top: 100px;
+				margin-bottom: auto;
+				width: 250px;
+				background-color: rgba(0,0,0,0.5) !important;
+			}
+
+			.remember input
+				{
+					width: 15px;
+					height: 15px;
+					margin-left: 5px;
+					margin-right: 0px;
+				}
+				
+		}
+	</style>
+
+</body>
+</html>
