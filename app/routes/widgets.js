@@ -7,6 +7,12 @@ module.exports = function (application) {
 
     });
 
+    application.get('/coddera-callback-web', function (req, res) {
+
+        res.render("web/callbackweb");
+
+    });
+
     application.post('/coddera-callback-widget/create', function (req, res) {
         var params = req.body;
         console.log("Parametros: " + JSON.stringify(params));
